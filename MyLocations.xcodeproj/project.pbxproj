@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		DF3700631C5A51720009E5D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3700621C5A51720009E5D8 /* AppDelegate.swift */; };
 		DF3700651C5A51720009E5D8 /* CurrentLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3700641C5A51720009E5D8 /* CurrentLocationViewController.swift */; };
-		DF3700671C5A51720009E5D8 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3700661C5A51720009E5D8 /* SecondViewController.swift */; };
 		DF37006A1C5A51720009E5D8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF3700681C5A51720009E5D8 /* Main.storyboard */; };
 		DF37006C1C5A51720009E5D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF37006B1C5A51720009E5D8 /* Assets.xcassets */; };
 		DF37006F1C5A51720009E5D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF37006D1C5A51720009E5D8 /* LaunchScreen.storyboard */; };
@@ -20,13 +19,13 @@
 		DF3700801C5E3CCA0009E5D8 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DF37007E1C5E3CCA0009E5D8 /* DataModel.xcdatamodeld */; };
 		DF3700831C5E3F370009E5D8 /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3700811C5E3F370009E5D8 /* Location+CoreDataProperties.swift */; };
 		DF3700841C5E3F370009E5D8 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3700821C5E3F370009E5D8 /* Location.swift */; };
+		DF3700861C5FF0090009E5D8 /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3700851C5FF0090009E5D8 /* LocationsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DF37005F1C5A51720009E5D8 /* MyLocations.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyLocations.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF3700621C5A51720009E5D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF3700641C5A51720009E5D8 /* CurrentLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationViewController.swift; sourceTree = "<group>"; };
-		DF3700661C5A51720009E5D8 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		DF3700691C5A51720009E5D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DF37006B1C5A51720009E5D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF37006E1C5A51720009E5D8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -38,6 +37,7 @@
 		DF37007F1C5E3CCA0009E5D8 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		DF3700811C5E3F370009E5D8 /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Location+CoreDataProperties.swift"; path = "../Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DF3700821C5E3F370009E5D8 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = ../Location.swift; sourceTree = "<group>"; };
+		DF3700851C5FF0090009E5D8 /* LocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +74,7 @@
 				DF3700641C5A51720009E5D8 /* CurrentLocationViewController.swift */,
 				DF3700761C5B85A30009E5D8 /* LocationDetailsViewController.swift */,
 				DF3700781C5E13F60009E5D8 /* CategoryPickerViewController.swift */,
-				DF3700661C5A51720009E5D8 /* SecondViewController.swift */,
+				DF3700851C5FF0090009E5D8 /* LocationsViewController.swift */,
 				DF3700681C5A51720009E5D8 /* Main.storyboard */,
 				DF37007A1C5E309B0009E5D8 /* HudView.swift */,
 				DF37007C1C5E38F60009E5D8 /* Functions.swift */,
@@ -160,9 +160,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF3700771C5B85A30009E5D8 /* LocationDetailsViewController.swift in Sources */,
+				DF3700861C5FF0090009E5D8 /* LocationsViewController.swift in Sources */,
 				DF3700801C5E3CCA0009E5D8 /* DataModel.xcdatamodeld in Sources */,
 				DF3700841C5E3F370009E5D8 /* Location.swift in Sources */,
-				DF3700671C5A51720009E5D8 /* SecondViewController.swift in Sources */,
 				DF37007B1C5E309B0009E5D8 /* HudView.swift in Sources */,
 				DF37007D1C5E38F60009E5D8 /* Functions.swift in Sources */,
 				DF3700831C5E3F370009E5D8 /* Location+CoreDataProperties.swift in Sources */,

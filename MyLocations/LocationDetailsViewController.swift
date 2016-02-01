@@ -155,7 +155,7 @@ class LocationDetailsViewController: UITableViewController {
         do {
             try managedObjectContext.save()
         } catch {
-            fatalError("Error saving location: \(error)")
+            fatalCoreDataError(error)
         }
         
         // Use GCD to dismiss the ViewController

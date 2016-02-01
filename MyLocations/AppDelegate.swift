@@ -9,8 +9,17 @@
 import UIKit
 import CoreData
 
+// Fail notification
+let MyManagedObjectContextSaveDidFailNotification = "MyManagedObjectContextSaveDidFailNotification"
+
+func fatalCoreDataError(error: ErrorType) {
+    print("*** Fatal Error: \(error)")
+    NSNotificationCenter.defaultCenter().postNotificationName(MyManagedObjectContextSaveDidFailNotification, object: nil)
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
     
     // Used in every CoreData App!!!
     lazy var managedObjectContext: NSManagedObjectContext = {
@@ -41,7 +50,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
 
     var window: UIWindow?
+    
+    // Listen for fail notifications
+    func listenForFatalCoreDataNotification() {
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(MyManagedObjectContextSaveDidFailNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (notification) -> Void in
+            
+            let alert = UIAlertController(title: "Internal Error", message: "We're sorry, but we could not save your location!", preferredStyle: .Alert)
+            let action = UIAlertAction(title: "Ok", style: .Default, handler: { (_) -> Void in
+                let exception = NSException(name: NSInternalInconsistencyException, reason: "Fatal Core Data Error", userInfo: nil)
+                exception.raise()
+            })
+            
+            alert.addAction(action)
+            self.viewControllerForShowingAlert().presentViewController(alert, animated: true, completion: nil)
+        }
+    }
 
+    func viewControllerForShowingAlert() -> UIViewController {
+        let rootViewController = window!.rootViewController!
+        
+        if let presentedVC = rootViewController.presentedViewController {
+            return presentedVC
+        } else {
+            return rootViewController
+        }
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
@@ -51,7 +85,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let currentLocationViewController = tabBarViewControllers[0] as! CurrentLocationViewController
             
             currentLocationViewController.managedObjectContext = managedObjectContext
+            
+            let locNavVC = tabBarViewControllers[1] as! UINavigationController
+            let locationsVC = locNavVC.topViewController as! LocationsViewController
+            
+            locationsVC.managedObjectContext = managedObjectContext
+            
         }
+        
+        listenForFatalCoreDataNotification()
         
         return true
     }
