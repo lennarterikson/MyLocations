@@ -94,6 +94,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Fix for a bug in iOS 9 & Core Data, forces fetchedResultsController to load when app starts
             let _ = locationsVC.view
             
+            let mapViewController = tabBarViewControllers[2] as! MapViewController
+            mapViewController.managedObjectContext = managedObjectContext
+            
         }
         
         listenForFatalCoreDataNotification()
