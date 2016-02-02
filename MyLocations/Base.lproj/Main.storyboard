@@ -483,6 +483,7 @@
                     <tabBarItem key="tabBarItem" title="Map" id="2hE-ri-02W"/>
                     <connections>
                         <outlet property="mapView" destination="1zK-yO-9t5" id="TxK-kp-wdu"/>
+                        <segue destination="xor-ZH-X4e" kind="modal" identifier="EditLocation" id="PCI-Nd-dYA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kzE-GR-ysr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -494,6 +495,6 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zDY-fR-jkz"/>
+        <segue reference="PCI-Nd-dYA"/>
     </inferredMetricsTieBreakers>
 </document>
