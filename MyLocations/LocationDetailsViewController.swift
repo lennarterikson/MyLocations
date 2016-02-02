@@ -24,6 +24,20 @@ class LocationDetailsViewController: UITableViewController {
     var categoryName = "No Category"
     var date = NSDate()
     
+    // Using a property observer here is clean!
+    var locationToEdit: Location? {
+        didSet {
+            if let location = locationToEdit {
+                descriptionText = location.locationDescription
+                categoryName = location.category
+                date = location.date
+                coordinate = CLLocationCoordinate2DMake(location.latitude, location.logitude)
+                placemark = location.placemark
+            }
+        }
+    }
+    var descriptionText = ""
+    
     var managedObjectContext: NSManagedObjectContext!
     
     // lazy loaded NSDateFormatter object
@@ -40,8 +54,12 @@ class LocationDetailsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        descriptionTextView.text = ""
-        categoryLabel.text = ""
+        if let location = locationToEdit {
+            title = "Edit location"
+        }
+        
+        descriptionTextView.text = descriptionText
+        
         
         latitudeLabel.text = String(format: "%.8f", coordinate.latitude)
         longitudeLabel.text = String(format: "%.8f", coordinate.longitude)
@@ -140,11 +158,20 @@ class LocationDetailsViewController: UITableViewController {
     
     @IBAction func done(sender: UIBarButtonItem) {
         let hudView = HudView.hudInView(navigationController!.view, animated: true)
-        hudView.text = "Tagged"
+        
+        let location: Location
+        
+        // Only create a new location when it did not exist already
+        if let temp = locationToEdit {
+            hudView.text = "Updated"
+            location = temp
+        } else {
+            hudView.text = "Tagged"
+            location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: managedObjectContext) as! Location
+        }
+        
         
         // Core Location saving action
-        let location = NSEntityDescription.insertNewObjectForEntityForName("Location", inManagedObjectContext: managedObjectContext) as! Location
-        
         location.locationDescription = descriptionTextView.text
         location.category = categoryName
         location.latitude = coordinate.latitude

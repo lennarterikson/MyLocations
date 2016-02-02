@@ -91,6 +91,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             locationsVC.managedObjectContext = managedObjectContext
             
+            // Fix for a bug in iOS 9 & Core Data, forces fetchedResultsController to load when app starts
+            let _ = locationsVC.view
+            
         }
         
         listenForFatalCoreDataNotification()
