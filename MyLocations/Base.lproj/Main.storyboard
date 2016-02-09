@@ -203,6 +203,10 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="inJ-IW-PCI">
+                                                    <rect key="frame" x="139" y="7" width="140" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -329,10 +333,12 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="addPhotoLabel" destination="SX5-vd-Sx7" id="d8q-p7-F7Z"/>
                         <outlet property="adressLabel" destination="wE9-Xv-Tvt" id="Mx7-Td-oOL"/>
                         <outlet property="categoryLabel" destination="5Td-uC-eUq" id="qDj-eQ-cYC"/>
                         <outlet property="dateLabel" destination="xEG-7u-9n9" id="n05-BO-ZmP"/>
                         <outlet property="descriptionTextView" destination="BFF-x5-Yrw" id="eXB-Rd-INn"/>
+                        <outlet property="imageView" destination="inJ-IW-PCI" id="cBM-5B-BkD"/>
                         <outlet property="latitudeLabel" destination="ysX-JQ-4k3" id="IKq-Ft-QHe"/>
                         <outlet property="longitudeLabel" destination="Kgy-sf-22M" id="Ktv-bQ-3aN"/>
                     </connections>
