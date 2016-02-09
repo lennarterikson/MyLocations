@@ -14,7 +14,16 @@ class MapViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
-    var managedObjectContext: NSManagedObjectContext!
+    var managedObjectContext: NSManagedObjectContext! {
+        didSet {
+            
+            NSNotificationCenter.defaultCenter().addObserverForName(NSManagedObjectContextObjectsDidChangeNotification, object: managedObjectContext, queue: NSOperationQueue.mainQueue()) {_ in 
+                if self.isViewLoaded() {
+                    self.updateLocations()
+                }
+            }
+        }
+    }
     var locations = [Location]()
     
     // MARK: - IBActions
@@ -107,6 +116,7 @@ class MapViewController: UIViewController {
     
 }
 
+// MARK: - MKMapViewDelegate Extension
 extension MapViewController: MKMapViewDelegate {
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
@@ -140,5 +150,12 @@ extension MapViewController: MKMapViewDelegate {
         
         return annotationView
         
+    }
+}
+
+// MARK: - UINavigationBarDelegate Extension
+extension MapViewController: UINavigationBarDelegate {
+    func positionForBar(bar: UIBarPositioning) -> UIBarPosition {
+        return .TopAttached
     }
 }
