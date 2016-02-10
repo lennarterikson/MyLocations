@@ -23,6 +23,7 @@
 		DF75DC151C609B12000FA823 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF75DC141C609B12000FA823 /* LocationCell.swift */; };
 		DF75DC171C60AED1000FA823 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF75DC161C60AED1000FA823 /* MapKit.framework */; };
 		DF75DC191C60AF20000FA823 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF75DC181C60AF20000FA823 /* MapViewController.swift */; };
+		DF7879AD1C6B855900B4937F /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7879AC1C6B855900B4937F /* UIImage+Resize.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		DF75DC141C609B12000FA823 /* LocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
 		DF75DC161C60AED1000FA823 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DF75DC181C60AF20000FA823 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		DF7879AC1C6B855900B4937F /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			children = (
 				DF3700621C5A51720009E5D8 /* AppDelegate.swift */,
 				DF3700641C5A51720009E5D8 /* CurrentLocationViewController.swift */,
+				DF7879AC1C6B855900B4937F /* UIImage+Resize.swift */,
 				DF3700761C5B85A30009E5D8 /* LocationDetailsViewController.swift */,
 				DF3700781C5E13F60009E5D8 /* CategoryPickerViewController.swift */,
 				DF3700851C5FF0090009E5D8 /* LocationsViewController.swift */,
@@ -174,6 +177,7 @@
 				DF3700801C5E3CCA0009E5D8 /* DataModel.xcdatamodeld in Sources */,
 				DF3700841C5E3F370009E5D8 /* Location.swift in Sources */,
 				DF37007B1C5E309B0009E5D8 /* HudView.swift in Sources */,
+				DF7879AD1C6B855900B4937F /* UIImage+Resize.swift in Sources */,
 				DF37007D1C5E38F60009E5D8 /* Functions.swift in Sources */,
 				DF75DC151C609B12000FA823 /* LocationCell.swift in Sources */,
 				DF75DC191C60AF20000FA823 /* MapViewController.swift in Sources */,
