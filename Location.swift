@@ -28,5 +28,44 @@ class Location: NSManagedObject, MKAnnotation {
     var subtitle: String? {
         return category
     }
+    
+    var hasPhoto: Bool {
+        return photoID != nil
+    }
+    
+    var photoPath: String {
+        assert(photoID != nil, "No photoID set")
+        let filename = "Photo-\(photoID!.integerValue).jpg"
+        return (applicationDocumentsDirectory as NSString).stringByAppendingPathComponent(filename)
+    }
 
+    var photoImage: UIImage? {
+        return UIImage(contentsOfFile: photoPath)
+    }
+    
+    class func nextPhotoID() -> Int {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let currentID = userDefaults.integerForKey("PhotoID")
+        
+        userDefaults.setInteger(currentID + 1, forKey: "PhotoID")
+        userDefaults.synchronize()
+        return currentID
+    }
+    
+    func removePhotoFile() {
+        
+        if hasPhoto {
+            let path = photoPath
+            let filemanager = NSFileManager.defaultManager()
+            
+            if filemanager.fileExistsAtPath(path) {
+                
+                do {
+                    try filemanager.removeItemAtPath(path)
+                } catch {
+                    print("Error removing file: \(error)")
+                }
+            }
+        }
+    }
 }
