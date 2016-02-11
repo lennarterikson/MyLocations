@@ -76,6 +76,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return rootViewController
         }
     }
+    
+    func customizeAppearance() {
+        UINavigationBar.appearance().barTintColor = UIColor.blackColor()
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
+        UITabBar.appearance().barTintColor = UIColor.blackColor()
+        
+        let tintColor = UIColor(red: 255/255, green: 238/255, blue: 136/255, alpha: 1.0)
+        UITabBar.appearance().tintColor = tintColor
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
@@ -99,6 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
         
+        customizeAppearance()
         listenForFatalCoreDataNotification()
         
         return true
