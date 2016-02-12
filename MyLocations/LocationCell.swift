@@ -17,6 +17,23 @@ class LocationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        backgroundColor  = UIColor.blackColor()
+        descriptionLabel.textColor = UIColor.whiteColor()
+        descriptionLabel.highlightedTextColor = descriptionLabel.textColor
+        adressLabel.textColor = UIColor(white: 1.0, alpha: 0.4)
+        adressLabel.highlightedTextColor = adressLabel.textColor
+        
+        // Custom selection view
+        let selectionView = UIView(frame: CGRect.zero)
+        selectionView.backgroundColor = UIColor(white: 1.0, alpha: 0.2)
+        selectedBackgroundView = selectionView
+        
+        // Make the image thumbnail round
+        photoImageView.layer.cornerRadius = photoImageView.bounds.size.width / 2
+        photoImageView.clipsToBounds = true
+        separatorInset = UIEdgeInsets(top: 0, left: 82, bottom: 0, right: 0)
+        
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -54,7 +71,7 @@ class LocationCell: UITableViewCell {
         if location.hasPhoto, let image = location.photoImage {
             return image.resizedImageWithBounds(CGSize(width: 52, height: 52))
         }
-        return UIImage()
+        return UIImage(named: "No Photo")!
     }
 
 }

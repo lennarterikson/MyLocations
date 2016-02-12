@@ -40,6 +40,11 @@ class LocationsViewController: UITableViewController {
         
         // Enable edit button in the navigation bar
         navigationItem.rightBarButtonItem = editButtonItem()
+        
+        // Customize the tableview appearance
+        tableView.backgroundColor = UIColor.blackColor()
+        tableView.separatorColor = UIColor(white: 1.0, alpha: 0.2)
+        tableView.indicatorStyle = .White
     }
     
     // Perfoms the Core Data fetch
@@ -68,7 +73,7 @@ class LocationsViewController: UITableViewController {
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionInfo = fetchedResultsController.sections![section]
         
-        return sectionInfo.name
+        return sectionInfo.name.uppercaseString
     }
     
 
@@ -89,14 +94,6 @@ class LocationsViewController: UITableViewController {
         return cell
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
     
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -116,7 +113,30 @@ class LocationsViewController: UITableViewController {
         }
     }
 
-
+    // MARK: - UITableViewDelegate
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let labelRect = CGRect(x: 15, y: tableView.sectionHeaderHeight - 14, width: 300, height: 14)
+        let label = UILabel(frame: labelRect)
+        
+        label.font = UIFont.boldSystemFontOfSize(11)
+        label.text = tableView.dataSource!.tableView!(tableView, titleForHeaderInSection: section)
+        
+        label.textColor = UIColor(white: 1.0, alpha: 0.4)
+        label.backgroundColor = UIColor.clearColor()
+        
+        let separatorRect = CGRect(x: 15, y: tableView.sectionHeaderHeight - 0.5, width: tableView.bounds.size.width, height: 0.5)
+        let separator = UIView(frame: separatorRect)
+        separator.backgroundColor = tableView.separatorColor
+        
+        let viewRect = CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.sectionHeaderHeight)
+        let view = UIView(frame: viewRect)
+        view.backgroundColor = UIColor(white: 0.0, alpha: 0.85)
+        view.addSubview(label)
+        view.addSubview(separator)
+        
+        return view
+    }
     
     // MARK: - Navigation
 

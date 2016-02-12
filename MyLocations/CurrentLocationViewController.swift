@@ -9,6 +9,8 @@
 import UIKit
 import CoreLocation
 import CoreData
+import QuartzCore
+import AudioToolbox
 
 class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -19,6 +21,9 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     @IBOutlet weak var adressLabel: UILabel!
     @IBOutlet weak var tagButton: UIButton!
     @IBOutlet weak var getButton: UIButton!
+    @IBOutlet weak var longitudeTextLabel: UILabel!
+    @IBOutlet weak var latitudeTextLabel: UILabel!
+    @IBOutlet weak var containerView: UIView!
     
     // MARK: - iVars
     let locationManager = CLLocationManager()
@@ -31,16 +36,101 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     var lastGeocodingError: NSError?
     var timer: NSTimer?
     var managedObjectContext: NSManagedObjectContext!
+    var soundID: SystemSoundID = 0
+    
+    // for animation purposes
+    var logoVisible = false
+    
+    lazy var logoButton: UIButton = {
+        let button = UIButton(type: .Custom)
+        button.setBackgroundImage(UIImage(named: "Logo"), forState: .Normal)
+        button.sizeToFit()
+        button.addTarget(self, action: Selector("getLocation"), forControlEvents: .TouchUpInside)
+        button.center.x = CGRectGetMidX(self.view.bounds)
+        button.center.y = 220
+        
+        return button
+    }()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         updateLabels()
         configureGetButton()
+        loadSoundEffect("Sound.caf")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // MARK: - Logo View
+    func showLogoView() {
+        
+        if !logoVisible {
+            logoVisible = true
+            containerView.hidden = true
+            view.addSubview(logoButton)
+        }
+    }
+    
+    func hideLogoView() {
+        
+        if !logoVisible { return }
+        
+        logoVisible = false
+        containerView.hidden = false
+        containerView.center.x = view.bounds.size.width * 2
+        containerView.center.y = 40 + containerView.bounds.size.height / 2
+        
+        let centerX = CGRectGetMidX(view.bounds)
+        
+        let panelMover = CABasicAnimation(keyPath: "position")
+        panelMover.removedOnCompletion = false
+        panelMover.fillMode = kCAFillModeForwards
+        panelMover.duration = 0.6
+        panelMover.fromValue = NSValue(CGPoint: containerView.center)
+        panelMover.toValue = NSValue(CGPoint: CGPoint(x: centerX, y: containerView.center.y))
+        
+        panelMover.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        panelMover.delegate = self
+        containerView.layer.addAnimation(panelMover, forKey: "panelMover")
+        
+        let logoMover = CABasicAnimation(keyPath: "position")
+        logoMover.removedOnCompletion = false
+        logoMover.fillMode = kCAFillModeForwards
+        logoMover.duration = 0.5
+        logoMover.fromValue = NSValue(CGPoint: logoButton.center)
+        logoMover.toValue = NSValue(CGPoint: CGPoint(x: -centerX, y: logoButton.center.y))
+        logoMover.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        
+        logoButton.layer.addAnimation(logoMover, forKey: "logoMover")
+        
+        let logoRotater = CABasicAnimation(keyPath: "transform.rotation.z")
+        logoRotater.removedOnCompletion = false
+        logoRotater.fillMode = kCAFillModeForwards
+        logoRotater.duration = 0.5
+        logoRotater.fromValue = 0.0
+        logoRotater.toValue = -2 * M_PI
+        logoRotater.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        
+        logoButton.layer.addAnimation(logoRotater, forKey: "logoRotator")
+        
+        
+        
+        logoButton.removeFromSuperview()
+    }
+    
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+        
+        containerView.layer.removeAllAnimations()
+        containerView.center.x = view.bounds.size.width / 2
+        containerView.center.y = 40 + view.bounds.size.height / 2
+        
+        logoButton.layer.removeAllAnimations()
+        logoButton.removeFromSuperview()
     }
     
     // MARK: - IBActions
@@ -67,6 +157,10 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             startLocationManager()
         }
         
+        if logoVisible {
+            hideLogoView()
+        }
+        
         updateLabels()
         configureGetButton()
     }
@@ -86,11 +180,16 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             longitudeLabel.text = String(format: "%.8f", location.coordinate.longitude)
             tagButton.hidden = false
             messageLabel.text = ""
+            latitudeTextLabel.hidden = false
+            longitudeTextLabel.hidden = false
+            
         } else {
             latitudeLabel.text = ""
             longitudeLabel.text = ""
             adressLabel.text = ""
             tagButton.hidden = true
+            latitudeTextLabel.hidden = true
+            longitudeTextLabel.hidden = true
             
         }
         
@@ -106,7 +205,8 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
         } else if updatingLocation {
             statusMessage = "Searching..."
         } else {
-            statusMessage = "Tap 'Get my location' to start"
+            statusMessage = ""
+            showLogoView()
         }
         messageLabel.text = statusMessage
 
@@ -180,10 +280,27 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
     
     func configureGetButton() {
         
+        let spinnerTag = 1000
+        
         if updatingLocation {
             getButton.setTitle("Stop", forState: .Normal)
+            
+            if view.viewWithTag(spinnerTag) == nil {
+
+                let spinner = UIActivityIndicatorView(activityIndicatorStyle: .White)
+                spinner.center = messageLabel.center
+                spinner.center.y += spinner.bounds.height / 2 + 15
+                spinner.startAnimating()
+                spinner.tag = spinnerTag
+                containerView.addSubview(spinner)
+                
+            }
         } else {
             getButton.setTitle("Get my location", forState: .Normal)
+            
+            if let spinner = view.viewWithTag(spinnerTag) {
+                spinner.removeFromSuperview()
+            }
         }
     }
     
@@ -241,6 +358,12 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
                     
                     self.lastLocationError = error
                     if error == nil, let p = placemarks where !p.isEmpty {
+                        
+                        if self.placemark == nil {
+                            print("First time!")
+                            self.playSoundEffect()
+                        }
+                        
                         self.placemark = p.last!
                     } else {
                         self.placemark = nil
@@ -273,6 +396,28 @@ class CurrentLocationViewController: UIViewController, CLLocationManagerDelegate
             tagVC.managedObjectContext = managedObjectContext
         }
         
+    }
+    
+    // MARK: - Sound Effect
+    func loadSoundEffect(name: String) {
+        if let path = NSBundle.mainBundle().pathForResource(name, ofType: nil) {
+            
+            let fileURL = NSURL.fileURLWithPath(path, isDirectory: false)
+            let error = AudioServicesCreateSystemSoundID(fileURL, &soundID)
+            
+            if error != kAudioServicesNoError {
+                print("Error loading sound: \(error)")
+            }
+        }
+    }
+    
+    func unloadSoundEffect() {
+        AudioServicesDisposeSystemSoundID(soundID)
+        soundID = 0
+    }
+    
+    func playSoundEffect() {
+        AudioServicesPlayAlertSound(soundID)
     }
     
 

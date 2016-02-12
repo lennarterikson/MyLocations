@@ -67,7 +67,6 @@ class LocationDetailsViewController: UITableViewController {
     // MARK: - ViewController Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if let location = locationToEdit {
             title = "Edit location"
             
@@ -92,6 +91,22 @@ class LocationDetailsViewController: UITableViewController {
         
         dateLabel.text = formatDate(date)
         categoryLabel.text = categoryName
+        
+        // Customize tableViews appearance
+        tableView.backgroundColor = UIColor.blackColor()
+        tableView.separatorColor = UIColor(white: 1.0, alpha: 0.2)
+        tableView.indicatorStyle = .White
+        
+        descriptionTextView.textColor = UIColor.whiteColor()
+        descriptionTextView.backgroundColor = UIColor.blackColor()
+        
+        addPhotoLabel.textColor = UIColor.whiteColor()
+        addPhotoLabel.highlightedTextColor = addPhotoLabel.textColor
+        
+        adressLabel.textColor = UIColor(white: 1.0, alpha: 0.4)
+        adressLabel.highlightedTextColor = adressLabel.textColor
+        
+        
         
         // Used to improve usabillity and hide keyboard when user taps anywhere on the screen
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("hideKeyboard:"))
@@ -167,6 +182,31 @@ class LocationDetailsViewController: UITableViewController {
         } else if indexPath.section == 1 && indexPath.row == 0 {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
             pickPhoto()
+        }
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        cell.backgroundColor = UIColor.blackColor()
+        
+        if let textLabel = cell.textLabel {
+            textLabel.textColor = UIColor.whiteColor()
+            textLabel.highlightedTextColor = textLabel.textColor
+        }
+        
+        if let detailLabel = cell.detailTextLabel {
+            detailLabel.textColor = UIColor(white: 1.0, alpha: 0.4)
+            detailLabel.highlightedTextColor = detailLabel.textColor
+        }
+        
+        let selectionView = UIView(frame: CGRect.zero)
+        selectionView.backgroundColor = UIColor(white: 1.0, alpha: 0.2)
+        cell.selectedBackgroundView = selectionView
+        
+        if indexPath.row == 2 {
+            let adressLabel = cell.viewWithTag(100) as! UILabel
+            adressLabel.textColor = UIColor.whiteColor()
+            adressLabel.highlightedTextColor = adressLabel.textColor
         }
     }
     
@@ -296,18 +336,20 @@ extension LocationDetailsViewController: UIImagePickerControllerDelegate, UINavi
     }
     
     func takePictureWithCamera() {
-        let imagePicker = UIImagePickerController()
+        let imagePicker = MyImagePickerController()
         imagePicker.sourceType = .Camera
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
+        imagePicker.view.tintColor = view.tintColor
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
     func choosePictureFromCameraRoll() {
-        let imagePicker = UIImagePickerController()
+        let imagePicker = MyImagePickerController()
         imagePicker.sourceType = .PhotoLibrary
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
+        imagePicker.view.tintColor = view.tintColor
         presentViewController(imagePicker, animated: true, completion: nil)
     }
     
